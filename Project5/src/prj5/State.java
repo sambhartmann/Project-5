@@ -3,7 +3,6 @@
  */
 package prj5;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,21 +42,44 @@ public class State {
     }
 
 
+    /**
+     * gets the name of the state
+     * 
+     * @return the name of the state
+     */
     public String getName() {
         return name;
     }
 
 
+    /**
+     * gets the cases array of the state
+     * 
+     * @return the cases array of the state
+     */
     public Object[] getCases() {
         return cases;
     }
 
 
+    /**
+     * gets the deaths array of the state
+     * 
+     * @return the death array of the state
+     */
     public Object[] getDeaths() {
         return deaths;
     }
 
 
+    /**
+     * gets number of cases given a race
+     * 
+     * @param race
+     *            the race that we are looking for the number of cases of
+     * @return
+     *         the number of cases that rase has in the state
+     */
     public Object getSpecificCase(String race) {
         for (int i = 0; i < races.length; i++) {
             if (races[i] == race) {
@@ -68,6 +90,14 @@ public class State {
     }
 
 
+    /**
+     * gets number of deaths given a race
+     * 
+     * @param race
+     *            the race that we are looking for the number of deaths of
+     * @return
+     *         the number of deaths that rase has in the state
+     */
     public Object getSpecificDeath(String race) {
         for (int i = 0; i < races.length; i++) {
             if (races[i] == race) {
@@ -78,7 +108,14 @@ public class State {
     }
 
 
-    public Object calculateCFR(String race) {
+    /**
+     * @param race
+     *            the race we are calculating the CFR number for
+     * @return the CFR number for that race in the state
+     * @throws IllegalArgumentException
+     *             is thrown if that race is not found
+     */
+    public Object calculateCFR(String race) throws IllegalArgumentException {
         int index = -1;
         for (int i = 0; i < races.length; i++) {
             if (races[i] == race) {
