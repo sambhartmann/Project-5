@@ -1,6 +1,7 @@
 package prj5;
 
 import java.util.Arrays;
+import student.TestCase;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,7 +9,7 @@ import java.util.NoSuchElementException;
  * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
  * @version 11.18.2021
  */
-public class LinkedListTest extends student.TestCase {
+public class LinkedListTest extends TestCase {
     private LinkedList<String> list1;
     private LinkedList<String> emptyList;
     private LinkedList<String> list3;

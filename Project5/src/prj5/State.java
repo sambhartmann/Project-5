@@ -109,9 +109,7 @@ public class State {
         return -1;
     }
 
-<<<<<<< HEAD
-    public double calculateCFR(String race) {
-=======
+
 
     /**
      * @param race
@@ -120,8 +118,8 @@ public class State {
      * @throws IllegalArgumentException
      *             is thrown if that race is not found
      */
-    public Object calculateCFR(String race) throws IllegalArgumentException {
->>>>>>> e97b587b27c73b595f6dff4dfb9fbba74908c435
+    public double calculateCFR(String race) throws IllegalArgumentException {
+
         int index = -1;
         for (int i = 0; i < RACES.length; i++) {
             if (RACES[i] == race) {
