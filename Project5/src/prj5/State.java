@@ -3,7 +3,6 @@
  */
 package prj5;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,28 +36,52 @@ public class State {
      * @param deaths
      *            the number of deaths in a state for each race
      */
-    public State(String name, Object[] cases, Object[] deaths) {
+    public State(String name, Object[] cases, Object[] deaths) 
+    {
         this.name = name;
         this.cases = cases;
         this.deaths = deaths;
     }
 
 
+    /**
+     * gets the name of the state
+     * 
+     * @return the name of the state
+     */
     public String getName() {
         return name;
     }
 
 
+    /**
+     * gets the cases array of the state
+     * 
+     * @return the cases array of the state
+     */
     public Object[] getCases() {
         return cases;
     }
 
 
+    /**
+     * gets the deaths array of the state
+     * 
+     * @return the death array of the state
+     */
     public Object[] getDeaths() {
         return deaths;
     }
 
 
+    /**
+     * gets number of cases given a race
+     * 
+     * @param race
+     *            the race that we are looking for the number of cases of
+     * @return
+     *         the number of cases that rase has in the state
+     */
     public Object getSpecificCase(String race) {
         for (int i = 0; i < RACES.length; i++) {
             if (RACES[i] == race) {
@@ -69,6 +92,14 @@ public class State {
     }
 
 
+    /**
+     * gets number of deaths given a race
+     * 
+     * @param race
+     *            the race that we are looking for the number of deaths of
+     * @return
+     *         the number of deaths that rase has in the state
+     */
     public Object getSpecificDeath(String race) {
         for (int i = 0; i < RACES.length; i++) {
             if (RACES[i] == race) {
@@ -78,7 +109,19 @@ public class State {
         return -1;
     }
 
+<<<<<<< HEAD
     public double calculateCFR(String race) {
+=======
+
+    /**
+     * @param race
+     *            the race we are calculating the CFR number for
+     * @return the CFR number for that race in the state
+     * @throws IllegalArgumentException
+     *             is thrown if that race is not found
+     */
+    public Object calculateCFR(String race) throws IllegalArgumentException {
+>>>>>>> e97b587b27c73b595f6dff4dfb9fbba74908c435
         int index = -1;
         for (int i = 0; i < RACES.length; i++) {
             if (RACES[i] == race) {
