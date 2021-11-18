@@ -65,19 +65,22 @@ public class LinkedList<T> {
     private Node<T> firstNode;
     private int size;
 
+    /**
+     * Creates a new linked list object
+     */
     public LinkedList() {
         firstNode = null;
         size = 0;
     }
 
 
+    /**
+     * gets the size of the linked list
+     * 
+     * @return the size of the linked list
+     */
     public int size() {
         return size;
-    }
-
-
-    public Node<T> getFirstNode() {
-        return firstNode;
     }
 
 
@@ -91,8 +94,15 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Adds the object to the position in the list
+     *
+     * @param index
+     *            where to add the object
+     * @param obj
+     *            the object to add
+     */
     public void add(int index, T obj) {
-        // check if the object is null
         if (obj == null) {
             throw new IllegalArgumentException("Object is null");
         }
@@ -127,6 +137,7 @@ public class LinkedList<T> {
 
                     }
                     current = current.next();
+                    currentIndex++;
                 }
             }
         }
@@ -134,8 +145,13 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Adds a element to the end of the list
+     *
+     * @param obj
+     *            the element to add to the end
+     */
     public void add(T obj) {
-        // check if the object is null
         if (obj == null) {
             throw new IllegalArgumentException("Object is null");
         }
@@ -158,6 +174,13 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Gets the object at the given position
+     *
+     * @param index
+     *            where the object is located
+     * @return The object at the given position
+     */
     public T get(int index) {
         Node<T> current = firstNode;
         int currentIndex = 0;
@@ -177,6 +200,13 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Removes the first instance of the given object from the list
+     *
+     * @param obj
+     *            the object to remove
+     * @return true if successful
+     */
     public boolean remove(T obj) {
         Node<T> current = firstNode;
 
@@ -190,9 +220,7 @@ public class LinkedList<T> {
         // account for 2+ size
         while (size() >= 2 && (current.next != null)) {
             if ((obj.equals(current.next.data))) {
-                if (current.next.next != null) {
-                    current.setNext(current.next.next);
-                }
+                current.setNext(current.next.next);
                 size--;
                 return true;
             }
@@ -202,16 +230,63 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Removes the object at the given position
+     *
+     * @param index
+     *            the position of the object
+     * @return true if the removal was successful
+     */
+    public boolean remove(int index) {
+        // if the index is invalid
+        if (index < 0 || firstNode == null) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+        else {
+            Node<T> current = firstNode;
+            int currentIndex = 0;
+            if (index == 0) {
+                firstNode = current.next;
+                size--;
+                return true;
+            }
+            while (current.next != null) {
+                if ((currentIndex + 1) == index) {
+                    Node<T> newNext = current.next.next;
+                    current.setNext(newNext);
+                    size--;
+                    return true;
+                }
+                current = current.next;
+                currentIndex++;
+            }
+
+            // if the element was never found, this also handles empty case
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+    }
+
+
+    /**
+     * Removes all of the elements from the list and sets size to 0
+     */
     public void clear() {
         // make sure we don't call clear on an empty list
         if (firstNode != null) {
             firstNode.setNext(null);
             firstNode = null;
         }
-
+        size = 0;
     }
 
 
+    /**
+     * Checks if the list contains the given object
+     *
+     * @param obj
+     *            the object to check for
+     * @return true if it contains the object
+     */
     public boolean contains(T obj) {
         Node<T> current = firstNode;
         while (current != null) {
@@ -225,6 +300,32 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * creates an array from the contents of the linked list
+     * 
+     * @return an array representing the list
+     */
+    public Object[] toArray() {
+
+        Object[] array = new Object[this.size()];
+
+        Node<T> current = firstNode;
+        int count = 0;
+        while (current != null) {
+            array[count] = current.getData();
+            current = current.next;
+            count++;
+        }
+
+        return array;
+    }
+
+
+    /**
+     * converts the singly linked list into a string
+     * 
+     * @return the string representing the singly linked list
+     */
     @Override
     public String toString() {
         String result = "{";
@@ -242,6 +343,13 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Returns true if both lists have the exact same contents
+     * in the exact same order
+     *
+     * @return a boolean of whether two lists have the same contents,
+     *         item per item and in the same order
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -271,6 +379,11 @@ public class LinkedList<T> {
     }
 
 
+    /**
+     * Iterator method creates Iterator object
+     *
+     * @return new Iterator object
+     */
     public Iterator<T> iterator() {
         return new SLListIterator<T>();
     }
@@ -280,19 +393,29 @@ public class LinkedList<T> {
         private Node<T> next;
 
         /**
-         * Creates a new DLListIterator
+         * Creates a new SLListIterator
          */
         public SLListIterator() {
-            next = firstNode.next;
+            next = firstNode;
         }
 
 
+        /**
+         * Checks if there are more elements in the list
+         *
+         * @return true if there are more elements in the list
+         */
         @Override
         public boolean hasNext() {
-            return (next.next() != null);
+            return (next != null);
         }
 
 
+        /**
+         * Gets the next value in the list
+         *
+         * @return the next value
+         */
         @Override
         public T next() {
             if (!hasNext()) {
@@ -301,9 +424,8 @@ public class LinkedList<T> {
             }
 
             T data = next.getData();
-            next = next.next;
+            next = next.next();
             return data;
         }
     }
-
 }
