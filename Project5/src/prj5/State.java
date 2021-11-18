@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
+
 /**
  * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
  * @version 11.18.2021
@@ -20,12 +21,12 @@ public class State {
      * Since we only have a specific number of races,
      * we can store them in this array
      */
-    public String[] races = { "White", "Black", "LatinX", "Asian", "Other" };
+    public final String[] RACES = { "White", "Black", "LatinX", "Asian", "Other" };
     /**
      * Creates a list of Strings from the array of races
      * the reason we are doing this is so that we are able to sort by race
      */
-    public List<String> listOfRaces = Arrays.asList(races);
+    public List<String> listOfRaces = Arrays.asList(RACES);
 
     /**
      * 
@@ -59,8 +60,8 @@ public class State {
 
 
     public Object getSpecificCase(String race) {
-        for (int i = 0; i < races.length; i++) {
-            if (races[i] == race) {
+        for (int i = 0; i < RACES.length; i++) {
+            if (RACES[i] == race) {
                 return cases[i];
             }
         }
@@ -69,19 +70,18 @@ public class State {
 
 
     public Object getSpecificDeath(String race) {
-        for (int i = 0; i < races.length; i++) {
-            if (races[i] == race) {
+        for (int i = 0; i < RACES.length; i++) {
+            if (RACES[i] == race) {
                 return deaths[i];
             }
         }
         return -1;
     }
 
-
-    public Object calculateCFR(String race) {
+    public double calculateCFR(String race) {
         int index = -1;
-        for (int i = 0; i < races.length; i++) {
-            if (races[i] == race) {
+        for (int i = 0; i < RACES.length; i++) {
+            if (RACES[i] == race) {
                 index = i;
             }
         }
@@ -94,6 +94,32 @@ public class State {
             return cfr;
 
         }
-        return "";
+        return 0.0;
     }
+    
+    /**
+     * ToString() implementation for the State class
+     * @return String
+     */
+    //TODO Requires sorting implentation first
+    @Override
+    public String toString()
+    {
+        CompareAlpha compareAlpha = new CompareAlpha();
+        CompareCFR compareCFR = new CompareCFR();
+        
+        StringBuilder str = new StringBuilder();
+        str.append(this.name + "\n");
+        
+        for (int i = 0; i < cases.length - 1; i++)
+        {
+            str.append(cases[i] + ", ");
+        }
+        
+       
+        return str.toString();
+    }
+
+    
+    
 }
