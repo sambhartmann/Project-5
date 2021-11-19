@@ -1,5 +1,10 @@
 package prj5;
 
+/**
+ * @author Sam Hartmann, Josh Sapirstein
+ * @version 11.19.2021
+ *
+ */
 public class RaceTest extends student.TestCase {
 
     private Race race;
