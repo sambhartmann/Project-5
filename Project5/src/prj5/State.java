@@ -149,6 +149,7 @@ public class State {
         CompareAlpha compareAlpha = new CompareAlpha();
         CompareCFR compareCFR = new CompareCFR();
         
+        compareAlpha()
         StringBuilder str = new StringBuilder();
         str.append(this.name + "\n");
         
@@ -157,7 +158,6 @@ public class State {
             str.append(cases[i] + ", ");
         }
         
-       
         return str.toString();
     }
 
