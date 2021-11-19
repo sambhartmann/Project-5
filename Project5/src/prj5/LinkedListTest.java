@@ -1,15 +1,15 @@
 package prj5;
 
 import java.util.Arrays;
-import student.TestCase;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
+ * @author Sam Hartmann, Josh Sapirstein
  * @version 11.18.2021
  */
-public class LinkedListTest extends TestCase {
+public class LinkedListTest extends student.TestCase {
     private LinkedList<String> list1;
     private LinkedList<String> emptyList;
     private LinkedList<String> list3;
@@ -324,6 +324,28 @@ public class LinkedListTest extends TestCase {
         }
         assertTrue(exception instanceof NoSuchElementException);
 
+    }
+
+
+    /**
+     * Tests insertionSort() and the helper method insertIntoSorted
+     */
+    public void testInsertionSort() {
+        Comparator<String> comp = new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        };
+
+        Comparator<Integer> comp2 = new Comparator<Integer>() {
+            public int compare(Integer o1, Integer o2) {
+                return o1.compareTo(o2);
+            }
+        };
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        list.add(1);
+        list1.insertionSort(comp);
+        list.insertionSort(comp2);
     }
 
 }
