@@ -2,9 +2,6 @@
 package prj5;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
