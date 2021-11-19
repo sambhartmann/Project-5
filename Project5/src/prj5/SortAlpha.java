@@ -2,6 +2,11 @@ package prj5;
 
 import java.util.Comparator;
 
+/**
+ * @author Sam Hartmann, Josh Sapirstein
+ * @version 11.19.2021
+ *
+ */
 public class SortAlpha implements Comparator<Race> {
 
     /**
