@@ -3,11 +3,12 @@
  */
 package prj5;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
+ * @author Sam Hartmann, Josh Sapirstein
  * @version 11.18.2021
  *
  */
@@ -318,6 +319,54 @@ public class LinkedList<T> {
         }
 
         return array;
+    }
+
+
+    /**
+     * Performs an insertion sort by splitting the list into a sorted and an
+     * unsorted portion and then iterates through the unsorted portion to
+     * insert each node one-by-one into the sorted portion.
+     * 
+     * @param comp
+     *            the Comparator to compare nodes
+     */
+    public void insertionSort(Comparator<T> comp) {
+        if (size > 1) {
+            Node<T> unsortedPart = firstNode.next;
+            Node<T> sortedPart = firstNode;
+            sortedPart.setNext(null);
+
+            while (unsortedPart != null) {
+                Node<T> nodeToInsert = unsortedPart;
+                unsortedPart = unsortedPart.next;
+                insertIntoSorted(nodeToInsert, comp);
+            }
+        }
+    }
+
+
+    /**
+     * Helper method to insert a node into its proper location in a sorted
+     * linked chain.
+     * 
+     * @param nodeToInsert
+     *            node to add to sorted section of list
+     * @param comp
+     *            the Comparator to compare nodes
+     */
+    private void insertIntoSorted(Node<T> nodeToInsert, Comparator<T> comp) {
+        T item = nodeToInsert.getData();
+        Node<T> currentNode = firstNode;
+        Node<T> previousNode = null;
+        while ((currentNode != null && (comp.compare(item, currentNode
+            .getData()) > 0))) {
+
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+        nodeToInsert.setNext(firstNode);
+        firstNode = nodeToInsert;
+
     }
 
 
