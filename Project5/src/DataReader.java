@@ -5,13 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
+ * @author Sam Hartmann
+ * @author Josh Sapirstein
  * @version 11.18.2021
  *
  */
 public class DataReader {
-    private Object[] cases;
-    private Object[] deaths;
+    private int[] cases;
+    private int[] deaths;
     private LinkedList<State> stateList;
 
     /**
@@ -42,20 +43,21 @@ public class DataReader {
         }
         LinkedList<State> tempList = new LinkedList<State>();
         Scanner myScanner = new Scanner(new File(fileName));
+        myScanner.nextLine();
         while (myScanner.hasNextLine()) {
             String lineRead = myScanner.nextLine();
             String[] myData = lineRead.split(", *");
             for (int i = 0; i < 5; i++) {
-                if (myData[i + 1] == "NA") {
-                    cases[i] = "NA";
+                if (myData[i + 1].equals("NA")) {
+                    cases[i] = -1;
                 }
                 else {
                     cases[i] = Integer.valueOf(myData[i + 1]);
                 }
             }
             for (int i = 0; i < 5; i++) {
-                if (myData[i + 5] == "NA") {
-                    deaths[i] = "NA";
+                if (myData[i + 5].equals("NA")) {
+                    deaths[i] = -1;
                 }
                 else {
                     deaths[i] = Integer.valueOf(myData[i + 5]);

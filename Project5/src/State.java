@@ -1,31 +1,25 @@
-/**
- * 
- */
+
 package prj5;
 
-import java.util.Arrays;
-import java.util.List;
-
+import java.text.DecimalFormat;
 
 /**
- * @author Sam Hartmann, Annalise Gellene, Josh Sapirstein
+ * 
+ * @author Sam Hartmann
+ * @author Josh Sapirstein
  * @version 11.18.2021
- *
  */
 public class State {
     private String name;
-    private Object[] cases;
-    private Object[] deaths;
+    private int[] cases;
+    private int[] deaths;
     /**
      * Since we only have a specific number of races,
      * we can store them in this array
      */
-    public final String[] RACES = { "White", "Black", "LatinX", "Asian", "Other" };
-    /**
-     * Creates a list of Strings from the array of races
-     * the reason we are doing this is so that we are able to sort by race
-     */
-    public List<String> listOfRaces = Arrays.asList(RACES);
+    public static final String[] RACES = { "white", "black", "latinx", "asian",
+        "other" };  
+    private LinkedList<Race> listOfRaces;
 
     /**
      * 
@@ -36,11 +30,11 @@ public class State {
      * @param deaths
      *            the number of deaths in a state for each race
      */
-    public State(String name, Object[] cases, Object[] deaths) 
-    {
+    public State(String name, int[] cases, int[] deaths) {
         this.name = name;
         this.cases = cases;
         this.deaths = deaths;
+        listOfRaces = this.createList();
     }
 
 
@@ -59,7 +53,7 @@ public class State {
      * 
      * @return the cases array of the state
      */
-    public Object[] getCases() {
+    public int[] getCases() {
         return cases;
     }
 
@@ -69,8 +63,24 @@ public class State {
      * 
      * @return the death array of the state
      */
-    public Object[] getDeaths() {
+    public int[] getDeaths() {
         return deaths;
+    }
+
+
+    /**
+     * creates a linked list of all the races data so we can sort it later
+     * 
+     * @return a linked list of races
+     */
+    public LinkedList<Race> createList() {
+        LinkedList<Race> tempList = new LinkedList<Race>();
+        for (int i = 0; i < RACES.length; i++) {
+            Race raceI = new Race(RACES[i], (double)cases[i], (double)deaths[i],
+                calculateCFR(RACES[i]));
+            tempList.add(raceI);
+        }
+        return tempList;
     }
 
 
@@ -84,8 +94,9 @@ public class State {
      */
     public Object getSpecificCase(String race) {
         for (int i = 0; i < RACES.length; i++) {
-            if (RACES[i] == race) {
+            if (RACES[i].equals(race)) {
                 return cases[i];
+
             }
         }
         return -1;
@@ -102,13 +113,12 @@ public class State {
      */
     public Object getSpecificDeath(String race) {
         for (int i = 0; i < RACES.length; i++) {
-            if (RACES[i] == race) {
+            if (RACES[i].equals(race)) {
                 return deaths[i];
             }
         }
         return -1;
     }
-
 
 
     /**
@@ -122,45 +132,43 @@ public class State {
 
         int index = -1;
         for (int i = 0; i < RACES.length; i++) {
-            if (RACES[i] == race) {
+            if (RACES[i].equals(race)) {
                 index = i;
             }
         }
         if (index == -1) {
             throw new IllegalArgumentException("race not found");
         }
-        if (deaths[index] != "NA" || cases[index] != "NA") {
-
-            double cfr = ((double)deaths[index] / (double)cases[index]) * 100;
-            return cfr;
-
+        if (deaths[index] == -1 || cases[index] == -1) {
+            return -1.0;
         }
-        return 0.0;
+        else {
+
+            double cfr = (((double)deaths[index])) / (((double)cases[index]));
+            return cfr * 100.0;
+        }
     }
-    
+
+
     /**
      * ToString() implementation for the State class
-     * @return String
+     * 
+     * @return the state as a string
      */
-    //TODO Requires sorting implentation first
     @Override
-    public String toString()
-    {
-        CompareAlpha compareAlpha = new CompareAlpha();
-        CompareCFR compareCFR = new CompareCFR();
-        
-        compareAlpha()
-        StringBuilder str = new StringBuilder();
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("0.#");
+       StringBuilder str = new StringBuilder();
         str.append(this.name + "\n");
-        
-        for (int i = 0; i < cases.length - 1; i++)
-        {
-            str.append(cases[i] + ", ");
+        for (int i = 0; i < cases.length; i++) {
+            Race currentRace = listOfRaces.get(i);
+            str.append(currentRace.getName() + ": " + df.format(currentRace
+                .getCases()) + " cases, " + df.format(currentRace.getCFR())
+                + "% CFR");
+            if (i != cases.length - 1) {
+                str.append("\n");
+            }
         }
-        
-        return str.toString();
+      return str.toString();
     }
-
-    
-    
 }
