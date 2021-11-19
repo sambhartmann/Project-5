@@ -2,6 +2,11 @@ package prj5;
 
 import java.text.DecimalFormat;
 
+/**
+ * @author Sam Hartmann, Josh Sapirstein
+ * @version 11.19.2021
+ *
+ */
 public class Race {
     private String raceName;
     private double cases;
