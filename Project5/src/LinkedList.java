@@ -375,8 +375,14 @@ public class LinkedList<T> {
             previousNode = currentNode;
             currentNode = currentNode.next;
         }
-        previousNode.setNext(nodeToInsert);
-        nodeToInsert.setNext(currentNode);
+        if (previousNode == null) {
+            nodeToInsert.setNext(firstNode);
+            firstNode = nodeToInsert;
+        }
+        else {
+            previousNode.setNext(nodeToInsert);
+            nodeToInsert.setNext(currentNode);
+        }
 
     }
 
