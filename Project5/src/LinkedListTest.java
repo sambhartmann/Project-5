@@ -353,6 +353,10 @@ public class LinkedListTest extends student.TestCase {
         assertEquals(str, list1.toString());
         str = "{1}";
         assertEquals(str, list.toString());
+        list.add(0);
+        list.insertionSort(comp2);
+        str = "{0, 1}";
+        assertEquals(str, list.toString());
     }
 
 }
