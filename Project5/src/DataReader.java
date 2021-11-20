@@ -25,6 +25,19 @@ public class DataReader {
      */
     public DataReader(String file) throws FileNotFoundException {
         stateList = readStates(file);
+        SortAlpha sa = new SortAlpha();
+        SortCFR sCFR = new SortCFR();
+        for (int i = 0; i < stateList.size() - 1; i++) {
+            stateList.get(i).listOfRaces.insertionSort(sa);
+            System.out.println(stateList.get(i));
+            System.out.print("=====");
+            stateList.get(i).listOfRaces.insertionSort(sCFR);
+            System.out.println(stateList.get(i).toString().substring(2,
+                stateList.get(i).toString().length()));
+            System.out.println("=====");
+
+        }
+
     }
 
 
@@ -38,6 +51,8 @@ public class DataReader {
      */
     public LinkedList<State> readStates(String fileName)
         throws FileNotFoundException {
+        cases = new int[5];
+        deaths = new int[5];
         if (fileName == null) {
             throw new FileNotFoundException("file is null");
         }
@@ -56,11 +71,12 @@ public class DataReader {
                 }
             }
             for (int i = 0; i < 5; i++) {
-                if (myData[i + 5].equals("NA")) {
+                if (myData[i + 6].equals("NA")) {
                     deaths[i] = -1;
                 }
                 else {
-                    deaths[i] = Integer.valueOf(myData[i + 5]);
+
+                    deaths[i] = Integer.valueOf(myData[i + 6]);
                 }
             }
             State tempState = new State(myData[0], cases, deaths);
