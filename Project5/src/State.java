@@ -18,7 +18,10 @@ public class State {
      * we can store them in this array
      */
     public static final String[] RACES = { "white", "black", "latinx", "asian",
-        "other" };  
+        "other" };
+    /**
+     * used for sorting
+     */
     private LinkedList<Race> listOfRaces;
 
     /**
@@ -69,6 +72,16 @@ public class State {
 
 
     /**
+     * gets the list of races so that we can sort easier
+     * 
+     * @return listOfRaces so that we can sort in other classes
+     */
+    public LinkedList<Race> getListOfRaces() {
+        return listOfRaces;
+    }
+
+
+    /**
      * creates a linked list of all the races data so we can sort it later
      * 
      * @return a linked list of races
@@ -77,7 +90,7 @@ public class State {
         LinkedList<Race> tempList = new LinkedList<Race>();
         for (int i = 0; i < RACES.length; i++) {
             Race raceI = new Race(RACES[i], (double)cases[i], (double)deaths[i],
-                calculateCFR(RACES[i]));
+                (double)calculateCFR(RACES[i]));
             tempList.add(raceI);
         }
         return tempList;
@@ -131,7 +144,7 @@ public class State {
     public double calculateCFR(String race) throws IllegalArgumentException {
 
         int index = -1;
-        for (int i = 0; i < RACES.length; i++) {
+        for (int i = 0; i < cases.length; i++) {
             if (RACES[i].equals(race)) {
                 index = i;
             }
@@ -143,9 +156,7 @@ public class State {
             return -1.0;
         }
         else {
-
-            double cfr = (((double)deaths[index])) / (((double)cases[index]));
-            return cfr * 100.0;
+            return (((double)deaths[index])) / (((double)cases[index])) * 100.0;
         }
     }
 
@@ -158,7 +169,7 @@ public class State {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("0.#");
-       StringBuilder str = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         str.append(this.name + "\n");
         for (int i = 0; i < cases.length; i++) {
             Race currentRace = listOfRaces.get(i);
@@ -169,6 +180,6 @@ public class State {
                 str.append("\n");
             }
         }
-      return str.toString();
+        return str.toString();
     }
 }
