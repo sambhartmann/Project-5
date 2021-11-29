@@ -25,18 +25,19 @@ public class DataReader {
      */
     public DataReader(String file) throws FileNotFoundException {
         stateList = readStates(file);
-        SortAlpha sa = new SortAlpha();
-        SortCFR sCFR = new SortCFR();
-        for (int i = 0; i < stateList.size() - 1; i++) {
-            stateList.get(i).listOfRaces.insertionSort(sa);
-            System.out.println(stateList.get(i));
-            System.out.print("=====");
-            stateList.get(i).listOfRaces.insertionSort(sCFR);
-            System.out.println(stateList.get(i).toString().substring(2,
-                stateList.get(i).toString().length()));
-            System.out.println("=====");
-
-        }
+        GUIWindow window = new GUIWindow(stateList);
+// SortAlpha sa = new SortAlpha();
+// SortCFR sCFR = new SortCFR();
+// for (int i = 0; i < stateList.size(); i++) {
+// stateList.get(i).getListOfRaces().insertionSort(sa);
+// System.out.println(stateList.get(i));
+// System.out.print("=====");
+// stateList.get(i).getListOfRaces().insertionSort(sCFR);
+// System.out.println(stateList.get(i).toString().substring(2,
+// stateList.get(i).toString().length()));
+// System.out.println("=====");
+//
+// }
 
     }
 
@@ -62,7 +63,7 @@ public class DataReader {
         while (myScanner.hasNextLine()) {
             String lineRead = myScanner.nextLine();
             String[] myData = lineRead.split(", *");
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < cases.length; i++) {
                 if (myData[i + 1].equals("NA")) {
                     cases[i] = -1;
                 }
@@ -70,7 +71,7 @@ public class DataReader {
                     cases[i] = Integer.valueOf(myData[i + 1]);
                 }
             }
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < deaths.length; i++) {
                 if (myData[i + 6].equals("NA")) {
                     deaths[i] = -1;
                 }
