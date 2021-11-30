@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import cs2.Shape;
 import cs2.TextShape;
+import java.awt.Point;
 
 /**
  * @author Sam Hartmann
@@ -21,6 +22,7 @@ public class GUIWindow {
     private Window window;
     private LinkedList<State> stateList;
     private LinkedList<Shape> shapeList;
+    private LinkedList<Point> pointList;
     private Button sortAlpha;
     private Button quit;
     private Button sortCFR;
@@ -45,6 +47,7 @@ public class GUIWindow {
         shapeY = 100;
         stateList = list;
         shapeList = new LinkedList<Shape>();
+        pointList = new LinkedList<Point>();
         window = new Window();
         window.setTitle("Space Colony Placement");
 
@@ -89,6 +92,11 @@ public class GUIWindow {
 
         // Sets default currentState
         currentState = setCurrentState("DC");
+        
+        for (int i = 1; i < 6; i++)
+        {
+            pointList.add(new Point((i * 100) + 100, 260));
+        }
 
     }
 
@@ -224,8 +232,8 @@ public class GUIWindow {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
             String cfrText = df.format(cfr);
             if (cfr > 0.0) {
-                TextShape cfrShape = new TextShape(shapeList.get(i).getX(),
-                    shapeList.get(i).getY() - 40, cfrText + "%");
+                TextShape cfrShape = new TextShape((int)(pointList.get(i).getX()),
+                    (int)((pointList.get(i).getY())), cfrText + "%");
                 window.addShape(cfrShape);
             }
 
@@ -242,8 +250,8 @@ public class GUIWindow {
         window.addShape(topname);
         for (int i = 0; i < shapeList.size(); i++) {
             String raceName = currentState.getListOfRaces().get(i).getName();
-            TextShape name = new TextShape(shapeList.get(i).getX(), shapeList
-                .get(i).getY() - 20, raceName);
+            TextShape name = new TextShape((int)(pointList.get(i).getX()),
+                (int)((pointList.get(i).getY()) - 20), raceName);
             window.addShape(name);
 
         }
@@ -255,17 +263,18 @@ public class GUIWindow {
      */
     private void drawGraph() {
         int barHeight = 0;
-        shapeX = 150;
+        
         shapeList.clear();
         // Creates all the shapes and adds them to the list
         for (int i = 0; i < currentState.getListOfRaces().size(); i++) {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
             barHeight = (int)(cfr * 20);
+            shapeX = (int)((pointList.get(i).getX())) + 10;
+            shapeY = (int)((pointList.get(i).getY())) - 20 - barHeight;
             Shape shape = new Shape(shapeX, shapeY, 20, barHeight);
             shape.setBackgroundColor(Color.BLUE);
             shape.setForegroundColor(Color.BLUE);
             shapeList.add(shape);
-            shapeX = shapeX + 100;
 
         }
         // adds the shapes to the windows, adds NA if CFR is NA
