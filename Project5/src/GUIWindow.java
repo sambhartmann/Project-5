@@ -236,6 +236,9 @@ public class GUIWindow {
      * Creates the names of the races for each of the cfr graphs
      */
     private void updateNames() {
+        TextShape topname = new TextShape((window.getGraphPanelWidth() / 2)
+            - 100, 20, currentState.getName() + "Case Fatality Ratios by Race");
+        window.addShape(topname);
         for (int i = 0; i < shapeList.size(); i++) {
             String raceName = currentState.getListOfRaces().get(i).getName();
             TextShape name = new TextShape(shapeList.get(i).getX(), shapeList
