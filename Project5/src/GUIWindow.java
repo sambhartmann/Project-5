@@ -7,10 +7,9 @@ import cs2.Button;
 import cs2.Window;
 import cs2.WindowSide;
 import java.awt.Color;
+import java.text.DecimalFormat;
 import cs2.Shape;
 import cs2.TextShape;
-import cs2.SquareShape;
-import list.AList;
 
 /**
  * @author Sam Hartmann
@@ -32,7 +31,8 @@ public class GUIWindow {
     private Button representTN;
     private Button representVA;
     private State currentState;
-// private State[] states;
+    private int shapeX;
+    private int shapeY;
 
     /**
      * Constructor
@@ -41,8 +41,10 @@ public class GUIWindow {
      *            The linkedList of states
      */
     public GUIWindow(LinkedList<State> list) {
-        window = new Window();
         shapeList = new LinkedList<Shape>();
+        shapeX = 150;
+        shapeY = 100;
+        window = new Window();
         window.setTitle("Space Colony Placement");
         stateList = list;
         // Initialize Buttons
@@ -72,17 +74,19 @@ public class GUIWindow {
 
         representVA = new Button("Represent VA");
         representVA.onClick(this, "clickedVA");
-
+        // Adds the buttons to the top of the window
         window.addButton(sortAlpha, WindowSide.NORTH);
         window.addButton(quit, WindowSide.NORTH);
         window.addButton(sortCFR, WindowSide.NORTH);
-
+        // Adds all the state buttons to the bottom of the window
         window.addButton(representDC, WindowSide.SOUTH);
         window.addButton(representGA, WindowSide.SOUTH);
         window.addButton(representMD, WindowSide.SOUTH);
         window.addButton(representNC, WindowSide.SOUTH);
         window.addButton(representTN, WindowSide.SOUTH);
         window.addButton(representVA, WindowSide.SOUTH);
+
+        // Sets default currentState
         currentState = setCurrentState("DC");
 
     }
@@ -93,7 +97,8 @@ public class GUIWindow {
      */
     public void displayData() {
         window.removeAllShapes();
-        drawGraph(currentState);
+        window.repaint();
+        drawGraph();
     }
 
 
@@ -156,6 +161,7 @@ public class GUIWindow {
      */
     public void clickedGA(Button button) {
         currentState = setCurrentState("GA");
+        displayData();
     }
 
 
@@ -167,6 +173,7 @@ public class GUIWindow {
      */
     public void clickedMD(Button button) {
         currentState = setCurrentState("MD");
+        displayData();
     }
 
 
@@ -178,6 +185,7 @@ public class GUIWindow {
      */
     public void clickedNC(Button button) {
         currentState = setCurrentState("NC");
+        displayData();
     }
 
 
@@ -189,6 +197,7 @@ public class GUIWindow {
      */
     public void clickedTN(Button button) {
         currentState = setCurrentState("TN");
+        displayData();
     }
 
 
@@ -200,41 +209,61 @@ public class GUIWindow {
      */
     public void clickedVA(Button button) {
         currentState = setCurrentState("VA");
+        displayData();
 
     }
 
 
-    private void update() {
+    /**
+     * creates the cfr percentage text shape for each of the cfr graphs
+     */
+    private void updatePercentages() {
+        DecimalFormat df = new DecimalFormat("0.#");
+        for (int i = 0; i < shapeList.size(); i++) {
+            double cfr = currentState.getListOfRaces().get(i).getCFR();
+            String cfrText = df.format(cfr);
+            if (cfr > 0.0) {
+                TextShape cfrShape = new TextShape(shapeList.get(i).getX(),
+                    shapeList.get(i).getY() - 40, cfrText + "%");
+                window.addShape(cfrShape);
+            }
 
+        }
     }
 
 
-    private void updatePercentages(State state) {
+    /**
+     * Creates the names of the races for each of the cfr graphs
+     */
+    private void updateNames() {
+        for (int i = 0; i < shapeList.size(); i++) {
+            String raceName = currentState.getListOfRaces().get(i).getName();
+            TextShape name = new TextShape(shapeList.get(i).getX(), shapeList
+                .get(i).getY() - 20, raceName);
+            window.addShape(name);
 
+        }
     }
 
 
-    private void updateNames(State state) {
-
-    }
-
-
-    private void drawGraph(State state) {
-        int shapeX = 75;
-        int shapeY = 50;
-        for (int i = 0; i < state.getListOfRaces().size(); i++) {
-            double cfr = state.calculateCFR(state.getListOfRaces().get(i)
-                .getName());
-
-            int barHeight = (int)(cfr * 100);
+    /**
+     * Creates all the graphics for the window
+     */
+    private void drawGraph() {
+        shapeX = 150;
+        shapeList.clear();
+        // Creates all the shapes and adds them to the list
+        for (int i = 0; i < currentState.getListOfRaces().size(); i++) {
+            double cfr = currentState.getListOfRaces().get(i).getCFR();
+            int barHeight = (int)(cfr * 20);
             Shape shape = new Shape(shapeX, shapeY, 20, barHeight);
             shape.setBackgroundColor(Color.BLUE);
             shape.setForegroundColor(Color.BLUE);
-
             shapeList.add(shape);
-            shapeX = shapeX + 30;
+            shapeX = shapeX + 100;
 
         }
+        // adds the shapes to the windows, adds NA if CFR is NA
         for (int i = 0; i < shapeList.size(); i++) {
             if (shapeList.get(i).getHeight() < 0) {
                 TextShape text = new TextShape(shapeList.get(i).getX(),
@@ -242,9 +271,14 @@ public class GUIWindow {
                 window.addShape(text);
             }
             else {
+                shapeList.get(i).setY(shapeList.get(i).getY());
                 window.addShape(shapeList.get(i));
+
             }
         }
+        // adds the names and percentages for each of the bars
+        updateNames();
+        updatePercentages();
     }
 
 
