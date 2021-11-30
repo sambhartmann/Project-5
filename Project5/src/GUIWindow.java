@@ -41,12 +41,13 @@ public class GUIWindow {
      *            The linkedList of states
      */
     public GUIWindow(LinkedList<State> list) {
-        shapeList = new LinkedList<Shape>();
         shapeX = 150;
         shapeY = 100;
+        stateList = list;
+        shapeList = new LinkedList<Shape>();
         window = new Window();
         window.setTitle("Space Colony Placement");
-        stateList = list;
+
         // Initialize Buttons
         sortAlpha = new Button("Sort by Alpha");
         sortAlpha.onClick(this, "clickedSortAlpha");
@@ -253,12 +254,13 @@ public class GUIWindow {
      * Creates all the graphics for the window
      */
     private void drawGraph() {
+        int barHeight = 0;
         shapeX = 150;
         shapeList.clear();
         // Creates all the shapes and adds them to the list
         for (int i = 0; i < currentState.getListOfRaces().size(); i++) {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
-            int barHeight = (int)(cfr * 20);
+            barHeight = (int)(cfr * 20);
             Shape shape = new Shape(shapeX, shapeY, 20, barHeight);
             shape.setBackgroundColor(Color.BLUE);
             shape.setForegroundColor(Color.BLUE);
@@ -291,8 +293,12 @@ public class GUIWindow {
      * @param stateName
      *            the name of the state we want to view
      * @return the State we want to view
+     * 
+     * @throws IllegalArgumentException
+     *             is thrown if the state name is not found
      */
-    private State setCurrentState(String stateName) {
+    private State setCurrentState(String stateName)
+        throws IllegalArgumentException {
         if (stateName.length() > 0) {
             for (int i = 0; i < stateList.size(); i++) {
                 if (stateName.equals(stateList.get(i).getName())) {
