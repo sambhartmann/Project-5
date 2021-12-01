@@ -268,7 +268,7 @@ public class GUIWindow {
         // Creates all the shapes and adds them to the list
         for (int i = 0; i < currentState.getListOfRaces().size(); i++) {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
-            barHeight = (int)(cfr * 20);
+            barHeight = (int)(cfr * 23);
             shapeX = (int)((pointList.get(i).getX())) - 50;
             shapeY = (int)((pointList.get(i).getY())) - 20 - barHeight;
             Shape shape = new Shape(shapeX, shapeY, 20, barHeight);
@@ -281,7 +281,7 @@ public class GUIWindow {
         for (int i = 0; i < shapeList.size(); i++) {
             if (shapeList.get(i).getHeight() < 0) {
                 TextShape text = new TextShape(shapeList.get(i).getX(),
-                    shapeList.get(i).getY(), "NA");
+                    shapeList.get(i).getY() - 40, "NA");
                 window.addShape(text);
             }
             else {
