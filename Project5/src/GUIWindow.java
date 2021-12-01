@@ -15,7 +15,7 @@ import java.awt.Point;
 /**
  * @author Sam Hartmann
  * @author Josh Sapirstein
- * @version 12.02.2021
+ * @version 12.01.2021
  *
  */
 public class GUIWindow {
@@ -43,7 +43,7 @@ public class GUIWindow {
      *            The linkedList of states
      */
     public GUIWindow(LinkedList<State> list) {
-        shapeX = 150;
+        shapeX = 100;
         shapeY = 100;
         stateList = list;
         shapeList = new LinkedList<Shape>();
@@ -92,9 +92,8 @@ public class GUIWindow {
 
         // Sets default currentState
         currentState = setCurrentState("DC");
-        
-        for (int i = 1; i < 6; i++)
-        {
+
+        for (int i = 1; i < 6; i++) {
             pointList.add(new Point((i * 100) + 100, 260));
         }
 
@@ -232,8 +231,8 @@ public class GUIWindow {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
             String cfrText = df.format(cfr);
             if (cfr > 0.0) {
-                TextShape cfrShape = new TextShape((int)(pointList.get(i).getX()),
-                    (int)((pointList.get(i).getY())), cfrText + "%");
+                TextShape cfrShape = new TextShape((int)(pointList.get(i).getX()
+                    - 60), (int)((pointList.get(i).getY())), cfrText + "%");
                 window.addShape(cfrShape);
             }
 
@@ -246,11 +245,12 @@ public class GUIWindow {
      */
     private void updateNames() {
         TextShape topname = new TextShape((window.getGraphPanelWidth() / 2)
-            - 100, 20, currentState.getName() + "Case Fatality Ratios by Race");
+            - 100, 20, currentState.getName()
+                + " Case Fatality Ratios by Race");
         window.addShape(topname);
         for (int i = 0; i < shapeList.size(); i++) {
             String raceName = currentState.getListOfRaces().get(i).getName();
-            TextShape name = new TextShape((int)(pointList.get(i).getX()),
+            TextShape name = new TextShape((int)(pointList.get(i).getX() - 60),
                 (int)((pointList.get(i).getY()) - 20), raceName);
             window.addShape(name);
 
@@ -263,13 +263,13 @@ public class GUIWindow {
      */
     private void drawGraph() {
         int barHeight = 0;
-        
+
         shapeList.clear();
         // Creates all the shapes and adds them to the list
         for (int i = 0; i < currentState.getListOfRaces().size(); i++) {
             double cfr = currentState.getListOfRaces().get(i).getCFR();
             barHeight = (int)(cfr * 20);
-            shapeX = (int)((pointList.get(i).getX())) + 10;
+            shapeX = (int)((pointList.get(i).getX())) - 50;
             shapeY = (int)((pointList.get(i).getY())) - 20 - barHeight;
             Shape shape = new Shape(shapeX, shapeY, 20, barHeight);
             shape.setBackgroundColor(Color.BLUE);
